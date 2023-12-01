@@ -89,7 +89,7 @@ export default function SingleTodo({ todo }: { todo: Todo }) {
     return (
       <form className="flex px-3 justify-between items-center gap-2 py-2">
         <input 
-          className="text-lg px-2 border border-neutral-500 rounded w-2/3" 
+          className="text-lg px-2 py-1 border border-neutral-500 rounded w-2/3" 
           type="text" 
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
