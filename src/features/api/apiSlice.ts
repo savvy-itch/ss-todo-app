@@ -1,3 +1,4 @@
+import { Todo } from '@/types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 /*
@@ -10,7 +11,7 @@ export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://jsonplaceholder.typicode.com' }),
   endpoints: builder => ({
-    getTodos: builder.query({
+    getTodos: builder.query<Todo[], void>({
       query: () => '/todos'
     }),
     addNewTodo: builder.mutation({
