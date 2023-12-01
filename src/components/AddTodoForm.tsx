@@ -25,8 +25,8 @@ export default function AddTodoForm() {
         completed: false
       }
       try {
-        await addNewTodo(newTodo);
         dispatch(addNewTodoToStorage(newTodo));
+        await addNewTodo(newTodo);
         setTitle('');
       } catch (error) {
         console.error('Failed to save to todo: ', error);
@@ -38,17 +38,18 @@ export default function AddTodoForm() {
 
   return (
     <form 
-      className="flex w-full justify-center gap-2"
+      className="flex w-full justify-center mt-6 border border-neutral-500 rounded-lg"
       onSubmit={addTodo}
     >
       <input 
-        className="pl-3 rounded grow" 
+        className="pl-3 rounded-l-md grow" 
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)} 
+        placeholder="Enter new task..."
       />
       <input 
-        className="py-2 px-4 rounded border border-black"
+        className="bg-emerald-500 hover:bg-emerald-600 focus:bg-emerald-600 text-white py-2 px-5 sm:px-7 rounded-r-md hover:cursor-pointer transition-colors"
         type="submit"
         onSubmit={addTodo}
         value="Add"

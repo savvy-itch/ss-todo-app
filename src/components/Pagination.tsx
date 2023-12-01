@@ -56,7 +56,7 @@ export default function Pagination({ pages }: { pages: number }) {
   }
 
   return (
-    <div className="flex justify-center mt-10">
+    <div className="flex justify-between sm:justify-center mt-8">
       {/* Left navigation arrow */}
       <button className="h-10 w-7 sm:w-10 rounded-lg font-bold bg-sky-300/75 border border-sky-300/75 mx-1 transition-colors hover:bg-sky-400/75 hover:border-sky-400-75 hover:cursor-pointer focus:bg-sky-400/75 focus:border-sky-400-75 disabled:cursor-default disabled:bg-sky-300/75 disabled:text-slate-600" 
         onClick={() => dispatch(onPrevPage())} 

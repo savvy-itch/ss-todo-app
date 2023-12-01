@@ -1,30 +1,26 @@
-# React + TypeScript + Vite
+# Todo App
+## Description
+A simple todo app with data fetching and CRUD functionalities. The app uses [JSONPlaceholder](https://jsonplaceholder.typicode.com) to fetch todos. The API does not allow making changes therefore all creation/deletion requests are faked. To mock changes persistance, local storage has been utilized.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+You can try live version [here](#).
+## Tech Stack
+- React
+- Vite
+- Redux/RTK
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+## Get Started
+To get started with this project, first clone the repo, then install dependencies by running:
 ```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+npm install
+```
+To run the app on the development server, run:
+```
+npm run dev
+```
+## Features
+- Todos fetching from an API;
+- Dynamic pagination (creating/deletion of task affect the amount of pages);
+- CRUD functionality (creating/deletion/editing operations are persisted)
+- The app is fully responsive and works well on desktop and mobile screens.

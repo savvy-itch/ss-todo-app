@@ -1,5 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+/*
+  Provided 'POST', 'DELETE', 'PATCH/PUT' requests DO NOT update the server
+  as JSONPlaceholder API mocks requests. Current implementation only serves 
+  as a demonstration of performing them and fakes persisted changes by
+  using local storage (see todoSlice.ts)
+*/
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://jsonplaceholder.typicode.com' }),

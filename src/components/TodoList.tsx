@@ -1,11 +1,13 @@
-import { Todo, TodosRootType } from '@/types';
 import {useState, useEffect} from 'react';
-import SingleTodo from './SingleTodo';
+import { Todo, TodosRootType } from '@/types';
 import { useGetTodosQuery } from '@/features/api/apiSlice';
-import Pagination from './Pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFetchedTodos } from '@/features/todos/todoSlice';
 import { pageSize } from '@/globals';
+
+import Loading from './Loading';
+import SingleTodo from './SingleTodo';
+import Pagination from './Pagination';
 
 export default function TodoList() {
   const dispatch = useDispatch();
@@ -37,19 +39,21 @@ export default function TodoList() {
     setTodosOnPage(todosForCurrentPage);
   }
 
+  // fetch API todos initially
   useEffect(() => {
     if (todos && todos.length > 0) {
       dispatch(setFetchedTodos({ fetchedTodos: todos}));
     }
   }, [todos, dispatch]);
 
+  // update pagination on todo creation/deletion
   useEffect(() => {
     paginateTodos();
   }, [currentPage, fetchedTodos, storedTodos]);
 
   let content;
   if (isLoading) {
-    content = <p className="text-2xl text-center">Loading...</p>
+    content = <Loading />
   } else if (isSuccess) {
     content = todosOnPage.map((todo: Todo) => {
       return (
@@ -62,7 +66,7 @@ export default function TodoList() {
 
   return (
     <div>
-      <section className="bg-white border border-slate-700 rounded-lg p-3">
+      <section className="bg-white border border-neutral-500 rounded-lg py-3">
         {content}
       </section>
       {isSuccess && <Pagination pages={Math.ceil(allTodos.length / pageSize)} />}

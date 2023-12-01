@@ -6,6 +6,12 @@ const initialState: TodoSliceType = {
   storedTodos: [],
   allTodos: [],
   currentPage: 1,
+  isEditMode: false,
+}
+
+function updateStorageData(data: Todo[]) {
+  localStorage.removeItem('todos');
+  localStorage.setItem('todos', JSON.stringify(data));
 }
 
 const todoSlice = createSlice({
@@ -14,6 +20,7 @@ const todoSlice = createSlice({
   reducers: {
     setFetchedTodos(state, action) {
       const storedTodos = localStorage.getItem('todos');
+      // if there's existing todos in storage
       if (storedTodos) {
         const todos = JSON.parse(storedTodos);
         return {...state, 
@@ -39,16 +46,17 @@ const todoSlice = createSlice({
     },
     addNewTodoToStorage(state, action) {
       const storedTodos = localStorage.getItem('todos');
+      // if there's existing todos in storage
       if (storedTodos) {
         const todos = JSON.parse(storedTodos);
         const updatedTodos = [action.payload, ...todos];
-        localStorage.removeItem('todos');
-        localStorage.setItem('todos', JSON.stringify(updatedTodos));
+        updateStorageData(updatedTodos);
         return {...state, 
           allTodos: [...updatedTodos, ...state.fetchedTodos],
           storedTodos: updatedTodos
         };
       } else {
+        // if it's the first todo to be stored
         localStorage.setItem('todos', JSON.stringify([action.payload]));
         return {...state,
           allTodos: [action.payload, ...state.fetchedTodos],
@@ -58,15 +66,14 @@ const todoSlice = createSlice({
     },
     editTodoInStorage(state, action) {
       const storedTodos = localStorage.getItem('todos');
+      // if there's existing todos in storage
       if (storedTodos) {
         const todos: Todo[] = JSON.parse(storedTodos);
 
         // if it's a custom todo
         if (todos.some(t => t.id === action.payload.id)) {
-          const updatedTodos = todos.filter(t => t.id !== action.payload.id);
-          updatedTodos.push(action.payload);
-          localStorage.removeItem('todos');
-          localStorage.setItem('todos', JSON.stringify(updatedTodos));
+          const updatedTodos = todos.map(t => (t.id === action.payload.id ? action.payload : t));
+          updateStorageData(updatedTodos);
           return {...state, 
             allTodos: [...updatedTodos, ...state.fetchedTodos],
             storedTodos: updatedTodos
@@ -74,8 +81,7 @@ const todoSlice = createSlice({
         } else {
           // if it's an API todo
           const updatedTodos = [action.payload, ...todos];
-          localStorage.removeItem('todos');
-          localStorage.setItem('todos', JSON.stringify(updatedTodos));
+          updateStorageData(updatedTodos);
           return {...state, 
             allTodos: [...updatedTodos, ...state.fetchedTodos],
             storedTodos: updatedTodos
@@ -90,6 +96,7 @@ const todoSlice = createSlice({
       }
     },
     deleteTodoFromStorage(state, action) {
+      // if it's an API todo (won't persist)
       if (state.fetchedTodos.some(t => t.id === action.payload)) {
         const updatedTodos = state.fetchedTodos.filter(t => t.id !== action.payload);
         return {...state, 
@@ -101,8 +108,7 @@ const todoSlice = createSlice({
       if (storedTodos) {
         const todos: Todo[] = JSON.parse(storedTodos);
         const updatedTodos = todos.filter(t => t.id !== action.payload);
-        localStorage.removeItem('todos');
-        localStorage.setItem('todos', JSON.stringify(updatedTodos));
+        updateStorageData(updatedTodos);
         return {...state, 
           allTodos: [...updatedTodos, ...state.fetchedTodos],
           storedTodos: updatedTodos
@@ -111,22 +117,25 @@ const todoSlice = createSlice({
     },
     toggleStatusInStorage(state, action) {
       const storedTodos = localStorage.getItem('todos');
+      // if there's existing todos in storage
       if (storedTodos) {
         const todos: Todo[] = JSON.parse(storedTodos);
 
         if (todos.some(t => t.id === action.payload)) {
           const todoIdx = todos.findIndex(t => t.id === action.payload);
-          if (todoIdx !== -1) {
-            todos[todoIdx].completed = !todos[todoIdx].completed;
-            localStorage.removeItem('todos');
-            localStorage.setItem('todos', JSON.stringify(todos));
-            return {...state, 
-              allTodos: [...todos, ...state.fetchedTodos],
-              storedTodos: todos
-            };
-          }
+          todos[todoIdx].completed = !todos[todoIdx].completed;
+          updateStorageData(todos);
+          return {...state, 
+            allTodos: [...todos, ...state.fetchedTodos],
+            storedTodos: todos
+          };
+        } else { 
+          return state;
         }
       }
+    },
+    toggleEditMode(state) {
+      return {...state, isEditMode: !state.isEditMode}
     }
   }
 })
@@ -139,6 +148,7 @@ export const {
   addNewTodoToStorage,
   editTodoInStorage,
   deleteTodoFromStorage,
-  toggleStatusInStorage
+  toggleStatusInStorage,
+  toggleEditMode
 } = todoSlice.actions;
 export default todoSlice.reducer;

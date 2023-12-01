@@ -9,7 +9,8 @@ export interface TodoSliceType {
   fetchedTodos: Todo[],
   storedTodos: Todo[],
   allTodos: Todo[],
-  currentPage: number
+  currentPage: number,
+  isEditMode: boolean
 }
 
 export interface TodosRootType {
