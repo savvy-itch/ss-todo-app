@@ -2,7 +2,7 @@
 ## Description
 A simple todo app with data fetching and CRUD functionalities. The app uses [JSONPlaceholder](https://jsonplaceholder.typicode.com) to fetch todos. The API does not allow making changes therefore all creation/deletion requests are faked. To mock changes persistance, local storage has been utilized.
 
-You can try live version [here](#).
+You can try live version [here](https://ss-todo-app-savvy-itch.netlify.app).
 ## Tech Stack
 - React
 - Vite

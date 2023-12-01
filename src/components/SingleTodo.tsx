@@ -28,7 +28,7 @@ export default function SingleTodo({ todo }: { todo: Todo }) {
 
   async function handleEdit(e: React.SyntheticEvent) {
     e.preventDefault();
-    //  if title is empty
+    //  if title is not empty
     if (newTitle) {
       try {
         setIsEdit(false);
@@ -136,8 +136,13 @@ export default function SingleTodo({ todo }: { todo: Todo }) {
               <AlertDialogTitle>Are you sure you want to delete this task?</AlertDialogTitle>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleDeleteTodo}>Ok</AlertDialogAction>
+              <AlertDialogCancel className="bg-rose-600 hover:bg-rose-700 focus:bg-rose-700 text-white hover:text-white">Cancel</AlertDialogCancel>
+              <AlertDialogAction 
+                className="bg-emerald-500 hover:bg-emerald-600 focus:bg-emerald-600"
+                onClick={handleDeleteTodo}
+              >
+                Ok
+              </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
